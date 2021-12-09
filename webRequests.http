@@ -1,0 +1,5 @@
+GET http://127.0.0.1:8080/servletcrud-1/order
+
+###
+
+GET http://127.0.0.1:8080/servletcrud-1/order?id=2
