@@ -106,14 +106,14 @@ public class OrderDao {
 
     public static List<Order> getOrders() throws SQLException {
         List<Order> result = new ArrayList<>();
-        PreparedStatement pstmt = null;
+        Statement stmt = null;
         ResultSet rs = null;
         Connection con = null;
 
         try {
             con = DbManager.getInstance().getConnection();
-            pstmt = con.prepareStatement(SQL_SELECT_ORDERS); // NOSONAR
-            rs = pstmt.executeQuery();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery(SQL_SELECT_ORDERS);
             while (rs.next()) {
                 Order order = new Order();
                 order.setId(rs.getInt("id"));
@@ -129,7 +129,7 @@ public class OrderDao {
                 result.add(order);
             }
             rs.close();
-            pstmt.close();
+            stmt.close();
         } catch (SQLException ex) {
             DbManager.getInstance().rollbackAndClose(con);
             log.error("Cannot get list of orders", ex);
