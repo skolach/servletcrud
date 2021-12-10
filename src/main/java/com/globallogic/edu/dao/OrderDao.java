@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import org.apache.log4j.Logger;
 
 import com.globallogic.edu.dbmanager.DbManager;
@@ -59,7 +61,7 @@ public class OrderDao {
                 rs.close();
             }
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             DbManager.getInstance().rollbackAndClose(con);
             log.error("Cannot insert order to DB", ex);
             throw new SQLException(ex);
@@ -94,7 +96,7 @@ public class OrderDao {
             }
             rs.close();
             pstmt.close();
-        } catch (SQLException | NumberFormatException ex) {
+        } catch (SQLException | NumberFormatException | NamingException ex) {
             DbManager.getInstance().rollbackAndClose(con);
             log.error("Cannot get order by id = " + id, ex);
             throw new SQLException(ex);
@@ -130,7 +132,7 @@ public class OrderDao {
             }
             rs.close();
             pstmt.close();
-        } catch (SQLException ex) {
+        } catch (SQLException | NamingException ex) {
             DbManager.getInstance().rollbackAndClose(con);
             log.error("Cannot get list of orders", ex);
             throw new SQLException(ex);
