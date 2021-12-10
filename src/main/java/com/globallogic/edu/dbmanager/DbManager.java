@@ -16,12 +16,16 @@ public class DbManager {
 
     private static DbManager instance;
 
-    private DbManager() {
-    }
+    private DbManager() {}
 
-    public static synchronized DbManager getInstance() {
+    public static DbManager getInstance() {
         if (instance == null)
             instance = new DbManager();
+            try {
+                Class.forName("org.h2.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         return instance;
     }
 
