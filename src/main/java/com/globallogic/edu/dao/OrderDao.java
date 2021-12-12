@@ -69,7 +69,7 @@ public class OrderDao {
     }
 
     public static Order getOrder(String id) throws SQLException {
-        Order result = new Order();
+        Order order = new Order();
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
@@ -81,7 +81,7 @@ public class OrderDao {
             rs = pstmt.executeQuery();
 
             if (rs.last() && (rs.getRow() == 1)) {
-                Order order = new Order();
+                order = new Order();
                 order.setId(rs.getInt("id"));
                 order.setUserId(rs.getInt("user_id"));
                 order.setCreatedAt(rs.getTimestamp("created_at"));
@@ -101,7 +101,7 @@ public class OrderDao {
         } finally {
             DbManager.getInstance().commitAndClose(con);
         }
-        return result;
+        return order;
     }
 
     public static List<Order> getOrders() throws SQLException {
