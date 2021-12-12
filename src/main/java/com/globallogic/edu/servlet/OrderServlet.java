@@ -26,24 +26,27 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-        List<Order> orders = null;
-
-        try {
-            orders = OrderDao.getOrders();
-        } catch (SQLException e) {
-            log.error("Cannot get list of orders", e);
+        Object result = null;
+        String id = req.getParameter("id");
+        if (id == null) {
+            try {
+                result = OrderDao.getOrders();
+            } catch (SQLException e) {
+                log.error("Cannot get list of orders", e);
+            }
+        } else {
+            try{
+                result = OrderDao.getOrder(id);
+            } catch (SQLException e) {
+                log.error("Can't get order by id = " + id, e);
+            }
         }
-
-        String ordersJson = gson.toJson(orders);
-
+        String ordersJson = gson.toJson(result);
         PrintWriter out = resp.getWriter();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         out.print(ordersJson);
         out.flush();
-        return;
-
     }
 
     @Override
