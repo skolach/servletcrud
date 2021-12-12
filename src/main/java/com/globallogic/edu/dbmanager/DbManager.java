@@ -19,13 +19,14 @@ public class DbManager {
     private DbManager() {}
 
     public static DbManager getInstance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new DbManager();
             try {
                 Class.forName("org.h2.Driver");
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
+        }
         return instance;
     }
 
@@ -55,11 +56,9 @@ public class DbManager {
 
     public static void main(String[] args){
         try (
-            ResultSet rs = 
-                DbManager.getInstance().getConnection().createStatement().
-                executeQuery("select * from `order`");
-        ) {
-            while(rs.next()) {
+                ResultSet rs = DbManager.getInstance().getConnection().createStatement()
+                        .executeQuery("select * from `order`");) {
+            while (rs.next()) {
                 System.out.println(rs.getDate("created_at") + " " + rs.getBigDecimal("price"));
             }
         } catch (Exception e) {
