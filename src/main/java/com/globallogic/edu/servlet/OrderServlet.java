@@ -1,9 +1,9 @@
 package com.globallogic.edu.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.globallogic.edu.dao.OrderDao;
 import com.globallogic.edu.entity.Order;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import org.apache.log4j.Logger;
 
@@ -54,8 +55,22 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        super.doPost(req, resp);
+        Order order = new Order();
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = req.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+            order = gson.fromJson(sb.toString(), Order.class);
+            OrderDao.insertOrder(order);
+        } catch (IOException e) {
+            log.error("Can't open reader for request body", e);
+        } catch (JsonSyntaxException e) {
+            log.error("Can't convert from json to object. Syntax error", e);
+        } catch (SQLException e) {
+            log.error("Can't write new order to DB", e);
+        }
     }
 
     @Override
