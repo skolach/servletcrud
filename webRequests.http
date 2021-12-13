@@ -2,7 +2,7 @@ GET http://127.0.0.1:8080/servletcrud-1/order
 
 ###
 
-GET http://127.0.0.1:8080/servletcrud-1/order?id=3
+GET http://127.0.0.1:8080/servletcrud-1/order?id=4
 
 ###
 
@@ -18,4 +18,13 @@ POST http://127.0.0.1:8080/servletcrud-1/order
     "routeDiscount": 12345,
     "userDiscount": 12345,
     "cash": 72.00
+}
+
+###
+
+PUT http://127.0.0.1:8080/servletcrud-1/order
+
+{
+    "id": 1,
+    "userId": 12345
 }
