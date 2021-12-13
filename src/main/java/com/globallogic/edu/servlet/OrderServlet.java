@@ -64,6 +64,7 @@ public class OrderServlet extends HttpServlet {
             }
             order = gson.fromJson(sb.toString(), Order.class);
             OrderDao.insertOrder(order);
+            log.debug("Newly inserted order has id = " + order.getId());
         } catch (IOException e) {
             log.error("Can't open reader for request body", e);
         } catch (JsonSyntaxException e) {

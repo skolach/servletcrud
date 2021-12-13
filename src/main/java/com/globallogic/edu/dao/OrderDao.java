@@ -102,7 +102,7 @@ public class OrderDao {
     public static void insertOrder(Order order) throws SQLException {
         try {
             Connection con = DbManager.getConnection();
-            PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_ORDER); //NOSONAR
+            PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS); //NOSONAR
                 //(`user_id`, `start_at`, `end_at`, `price`, `route_discount`, `user_discount`, `cash`)
             int k = 0;
             pstmt.setInt(++k, 1);
@@ -112,7 +112,13 @@ public class OrderDao {
             pstmt.setInt(++k, order.getRouteDiscount());
             pstmt.setInt(++k, order.getUserDiscount());
             pstmt.setBigDecimal(++k, order.getCash());
-            pstmt.execute();
+            if (pstmt.executeUpdate() > 0) {
+                ResultSet rs = pstmt.getGeneratedKeys();
+                if (rs.next()) {
+                    order.setId(rs.getInt(1));
+                }
+                rs.close();
+            }
         } catch (SQLException e) {
             log.error("Can't insert new order to the DB", e);
         }
