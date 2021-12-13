@@ -42,11 +42,14 @@ public class OrderServlet extends HttpServlet {
             }
         }
         String ordersJson = gson.toJson(result);
-        PrintWriter out = resp.getWriter();
-        resp.setContentType("application/json");
-        resp.setCharacterEncoding("UTF-8");
-        out.print(ordersJson);
-        out.flush();
+        try (PrintWriter out = resp.getWriter()) {
+            resp.setContentType("application/json");
+            resp.setCharacterEncoding("UTF-8");
+            out.print(ordersJson);
+            out.flush();
+        } catch (IOException e){
+            log.error("Can't write response", e);
+        }
     }
 
     @Override
