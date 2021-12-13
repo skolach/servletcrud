@@ -37,8 +37,8 @@ public class OrderServlet extends HttpServlet {
             }
         } else {
             try{
-                result = OrderDao.getOrder(id);
-            } catch (SQLException e) {
+                result = OrderDao.getOrder(Integer.parseInt(id));
+            } catch (SQLException | NumberFormatException e) {
                 log.error("Can't get order by id = " + id, e);
             }
         }
@@ -76,8 +76,25 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        super.doPut(req, resp);
+        Order anotherOrder = null;
+        Order order = null;
+        StringBuilder sb = new StringBuilder();
+        try (BufferedReader reader = req.getReader()) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line).append('\n');
+            }
+            anotherOrder = gson.fromJson(sb.toString(), Order.class);
+            order = OrderDao.getOrder(anotherOrder.getId());
+            order.merge(anotherOrder);
+            OrderDao.updateOrder(order);
+        } catch (IOException e) {
+            log.error("Can't open reader for request body", e);
+        } catch (JsonSyntaxException e) {
+            log.error("Can't convert from json to object. Syntax error", e);
+        } catch (SQLException e) {
+            log.error("Can't update order in DB", e);
+        }
     }
 
     @Override
