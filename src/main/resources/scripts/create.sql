@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS `route`;
+DROP TABLE IF EXISTS `order`;
+
 CREATE TABLE IF NOT EXISTS `order` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT,
@@ -20,6 +23,6 @@ CREATE TABLE IF NOT EXISTS `route` (
     `point_order` INT,
     `point_name` VARCHAR(10),
     --
-    CONSTRAINT `pk_route` PRIMARY KEY (`id`),
-    CONSTRAINT `fk_route_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE
+    CONSTRAINT `pk_route` PRIMARY KEY (`id`)
+    --CONSTRAINT `fk_route_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`) ON DELETE CASCADE
 );

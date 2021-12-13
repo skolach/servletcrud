@@ -2,4 +2,20 @@ GET http://127.0.0.1:8080/servletcrud-1/order
 
 ###
 
-GET http://127.0.0.1:8080/servletcrud-1/order?id=44
+GET http://127.0.0.1:8080/servletcrud-1/order?id=3
+
+###
+
+POST http://127.0.0.1:8080/servletcrud-1/order
+
+{
+    "id": 1,
+    "userId": 12345,
+    "createdAt": "Dec 10, 1010, 10:107:10 PM",
+    "startAt": "Dec 10, 1010, 10:10:10 PM",
+    "endAt": "Dec 10, 1010, 10:10:10 PM",
+    "price": 100.00,
+    "routeDiscount": 12345,
+    "userDiscount": 12345,
+    "cash": 72.00
+}
