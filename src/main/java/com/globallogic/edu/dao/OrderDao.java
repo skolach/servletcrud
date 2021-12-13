@@ -22,23 +22,30 @@ public class OrderDao {
 
     private static final Logger log = Logger.getLogger(OrderDao.class.getName());
 
-    private static final String SQL_INSERT_ORDER = "INSERT INTO `order`" +
-            "(`user_id`, `start_at`, `end_at`, `price`, `route_discount`, `user_discount`, `cash`)" +
-            "VALUES(?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_INSERT_ORDER =
+        "INSERT INTO `order` "
+        + "(`user_id`, `start_at`, `end_at`, `price`, `route_discount`, `user_discount`, `cash`) "
+        + "VALUES(?, ?, ?, ?, ?, ?, ?) ";
 
-    private static final String SQL_SELECT_ORDERS = "select o.`id`, o.`user_id`, o.`created_at`, o.`start_at`, o.`end_at`, "
-            +
-            "o.`price`, o.`route_discount`, o.`user_discount`, o.`cash` " +
-            "from `order` o";
+    private static final String SQL_UPDATE_ORDER =
+        "UPDATE `order` "
+        + "SET `user_id` = ?, `start_at` = ?, `end_at` = ?, `price` = ?, `route_discount` = ?, "
+        + "`user_discount` = ?, `cash` = ? "
+        + "WHERE `id` = ? ";
 
-    private static final String SQL_SELECT_ORDER = "select o.`id`, o.`user_id`, o.`created_at`, o.`start_at`, o.`end_at`, "
-            +
-            "o.`price`, o.`route_discount`, o.`user_discount`, o.`cash` " +
-            "from `order` o " +
-            "where o.id = ? ";
+    private static final String SQL_SELECT_ORDERS =
+        "SELECT o.`id`, o.`user_id`, o.`created_at`, o.`start_at`, o.`end_at`, "
+        + "o.`price`, o.`route_discount`, o.`user_discount`, o.`cash` "
+        + "FROM `order` o ";
 
-    public static Order getOrder(String id) throws SQLException {
-        Order order = new Order();
+    private static final String SQL_SELECT_ORDER =
+        "SELECT o.`id`, o.`user_id`, o.`created_at`, o.`start_at`, o.`end_at`, "
+        + "o.`price`, o.`route_discount`, o.`user_discount`, o.`cash` "
+        + "FROM `order` o "
+        + "WHERE o.id = ? ";
+
+    public static Order getOrder(Integer id) throws SQLException {
+        Order order = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
         Connection con = null;
@@ -46,7 +53,7 @@ public class OrderDao {
         try {
             con = DbManager.getConnection();
             pstmt = con.prepareStatement(SQL_SELECT_ORDER); // NOSONAR
-            pstmt.setInt(1, Integer.parseInt(id));
+            pstmt.setInt(1, id);
             rs = pstmt.executeQuery();
 
             if (rs.last() && (rs.getRow() == 1)) {
@@ -105,7 +112,7 @@ public class OrderDao {
             PreparedStatement pstmt = con.prepareStatement(SQL_INSERT_ORDER, Statement.RETURN_GENERATED_KEYS); //NOSONAR
                 //(`user_id`, `start_at`, `end_at`, `price`, `route_discount`, `user_discount`, `cash`)
             int k = 0;
-            pstmt.setInt(++k, 1);
+            pstmt.setInt(++k, order.getUserId());
             pstmt.setTimestamp(++k, order.getStartAt());
             pstmt.setTimestamp(++k, order.getEndAt());
             pstmt.setBigDecimal(++k, order.getPrice());
@@ -123,6 +130,26 @@ public class OrderDao {
             log.error("Can't insert new order to the DB", e);
         }
     }
+
+    public static void updateOrder(Order order) {
+        try {
+            Connection con = DbManager.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(SQL_UPDATE_ORDER); //NOSONAR
+                //(`user_id`, `start_at`, `end_at`, `price`, `route_discount`, `user_discount`, `cash`)
+            int k = 0;
+            pstmt.setInt(++k, order.getUserId());
+            pstmt.setTimestamp(++k, order.getStartAt());
+            pstmt.setTimestamp(++k, order.getEndAt());
+            pstmt.setBigDecimal(++k, order.getPrice());
+            pstmt.setInt(++k, order.getRouteDiscount());
+            pstmt.setInt(++k, order.getUserDiscount());
+            pstmt.setBigDecimal(++k, order.getCash());
+            pstmt.setInt(++k, order.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Can't insert new order to the DB", e);
+        }
+    }    
 
     public static void main(String[] args) throws SQLException {
 
