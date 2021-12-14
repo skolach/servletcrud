@@ -44,6 +44,9 @@ public class OrderDao {
         + "FROM `order` o "
         + "WHERE o.id = ? ";
 
+    private static final String SQL_DELETE_ORDER = 
+        "DELETE FROM `order` o WHERE o.`id` = ? ";
+
     public static Order getOrder(Integer id) throws SQLException {
         Order order = null;
         PreparedStatement pstmt = null;
@@ -150,6 +153,17 @@ public class OrderDao {
             log.error("Can't insert new order to the DB", e);
         }
     }    
+    
+    public static void deleteOrder(Integer id) throws SQLException{
+        try {
+            Connection con = DbManager.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(SQL_DELETE_ORDER); //NOSONAR
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            log.error("Can't delete order from the DB", e);
+        }
+    }
 
     public static void main(String[] args) throws SQLException {
 
