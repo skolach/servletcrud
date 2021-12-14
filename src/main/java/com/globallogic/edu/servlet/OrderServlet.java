@@ -99,8 +99,13 @@ public class OrderServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO Auto-generated method stub
-        super.doDelete(req, resp);
+        try {
+            Integer id = Integer.parseInt(req.getParameter("id"));
+            OrderDao.deleteOrder(id);
+        } catch (NumberFormatException e) {
+            log.error("Wrong number format for order id, can't delete.", e);
+        } catch (SQLException e) {
+            log.error("Can't delete order from db", e );
+        }
     }
-
 }
