@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Orders</title>
+</head>
+
+<body>
+
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+            </div>
+
+            <div class="col-sm-8 text-left">
+                <div id="history" class="panel-group">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3>Orders</h3>
+                            <button onclick="location.href='order?new=true'" type="button" class="btn btn-warning">
+                                Add new ...
+                            </button>
+                        </div>
+                        <div class="panel-body">
+                            <form>
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            id
+                                        </th>
+                                        <th>
+                                            userId
+                                        </th>
+                                        <th>
+                                            createdAt
+                                        </th>
+                                        <th>
+                                            startAt
+                                        </th>
+                                        <th>
+                                            endAt
+                                        </th>
+                                        <th>
+                                            price
+                                        </th>
+                                        <th>
+                                            routeDiscount
+                                        </th>
+                                        <th>
+                                            userDiscount
+                                        </th>
+                                        <th>
+                                            cash
+                                        </th>
+                                        <th>
+
+                                        </th>
+                                    </tr>
+                                    <tr th:each="o : ${orders}">
+                                        <td th:text="${o.id}"></td>
+                                        <td th:text="${o.userId}"></td>
+                                        <td th:text="${o.createdAt}"></td>
+                                        <td th:text="${o.startAt}"></td>
+                                        <td th:text="${o.endAt}"></td>
+                                        <td th:text="${o.price}"></td>
+                                        <td th:text="${o.routeDiscount}"></td>
+                                        <td th:text="${o.userDiscount}"></td>
+                                        <td th:text="${o.cash}"></td>
+                                        <td> <a href="order" th:href="@{'order?id='+${o.id}}">Edit...</a> </td>
+                                    </tr>
+                                </table>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 sidenav">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
