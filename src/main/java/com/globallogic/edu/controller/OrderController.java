@@ -9,6 +9,8 @@ import com.globallogic.edu.entity.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import org.apache.log4j.Logger;
@@ -54,48 +56,40 @@ public class OrderController {
         return forwardStr;
     }
 
-    // @Override
-    // protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    //     String delete = req.getParameter("delete");
-    //     if (delete != null) {
-    //         try {
-    //             OrderDao.deleteOrder(Integer.parseInt(delete));
-    //         } catch (NumberFormatException | SQLException e) {
-    //             log.error("Can't delete order with id=" + delete, e);
-    //         }
-    //     } else {
-    //         try {
-    //             Order newOrder = new Order();
+    @PostMapping(path = {"/order"})
+    public String doPost(
+            Model model,
+            @RequestParam(name = "delete", required = false) String delete,
+            @ModelAttribute("order") Order editedOrder)
+    {
 
-    //             try {
-    //                 newOrder.setId(Integer.parseInt(req.getParameter("id")));
-    //             } catch (NumberFormatException e) {
-    //                 newOrder.setId(null);
-    //             }
-    //             newOrder.setUserId(Integer.parseInt(req.getParameter("userId")));
-    //             newOrder.setCreatedAt(Timestamp.valueOf(req.getParameter("createdAt")));
-    //             newOrder.setStartAt(Timestamp.valueOf(req.getParameter("startAt")));
-    //             newOrder.setEndAt(Timestamp.valueOf(req.getParameter("endAt")));
-    //             newOrder.setPrice(new BigDecimal(req.getParameter("price")));
-    //             newOrder.setRouteDiscount(Integer.parseInt(req.getParameter("routeDiscount")));
-    //             newOrder.setUserDiscount(Integer.parseInt(req.getParameter("userDiscount")));
-    //             newOrder.setCash(new BigDecimal(req.getParameter("cash")));
+        if (delete != null) {
+            try {
+                OrderDao.deleteOrder(editedOrder.getId());
+            } catch (SQLException e) {
+                log.error("Can't delete order with id=" + delete, e);
+            }
+        } else {
+            try {
+                Order oldOrder = OrderDao.getOrder(editedOrder.getId());
+                if (oldOrder == null) {
+                    OrderDao.insertOrder(editedOrder);
+                    log.debug("Newly inserted order has id = " + editedOrder.getId());
+                } else {
+                    oldOrder.merge(editedOrder);
+                    OrderDao.updateOrder(oldOrder);
+                    log.debug("Order with id = " + editedOrder.getId() + " successfully updated in DB");
+                }
+            } catch (SQLException e) {
+                log.error("Can't save order", e);
+            }
+        }
 
-    //             Order oldOrder = OrderDao.getOrder(newOrder.getId());
-
-    //             if (oldOrder == null) {
-    //                 OrderDao.insertOrder(newOrder);
-    //                 log.debug("Newly inserted order has id = " + newOrder.getId());
-    //             } else {
-    //                 oldOrder.merge(newOrder);
-    //                 OrderDao.updateOrder(oldOrder);
-    //                 log.debug("Order with id = " + newOrder.getId() + " successfully updated in DB");
-    //             }
-    //         } catch (SQLException | NumberFormatException e) {
-    //             log.error("Can't save order", e);
-    //         }
-    //     }
-    //     resp.sendRedirect("order");
-    // }
-
+        try {
+            model.addAttribute("orders", OrderDao.getOrders());
+        } catch (SQLException e) {
+            log.error("Can't get orders list", e);
+        }
+        return "ordersView";
+    }
 }
