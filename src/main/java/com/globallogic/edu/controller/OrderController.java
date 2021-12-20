@@ -3,9 +3,10 @@ package com.globallogic.edu.controller;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.globallogic.edu.dao.OrderDao;
 import com.globallogic.edu.entity.Order;
+import com.globallogic.edu.repository.OrderRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,13 @@ import org.apache.log4j.Logger;
 public class OrderController {
 
     private static final Logger log = Logger.getLogger(OrderController.class.getName());
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    OrderController(OrderRepository repo){
+        this.orderRepository = repo;
+    }
 
     @GetMapping(path = {"/", "/order"})
     public String doGet(
@@ -34,18 +42,14 @@ public class OrderController {
         } 
         else {
             if (id == null) {
-                List<Order> orders = null;
-                try {
-                    orders = OrderDao.getOrders();
-                } catch (SQLException e) {
-                    log.error("Cannot get list of orders", e);
-                }
+                List<Order> orders = orderRepository.findAll();
                 model.addAttribute("orders", orders);
                 forwardStr = "ordersView";
             } else {
                 Order order = null;
                 try {
-                    order = OrderDao.getOrder(Integer.parseInt(id));
+                    order = orderRepository.findById(Integer.parseInt(id)).
+                        orElseThrow(() -> new SQLException("Order can't be find"));
                 } catch (SQLException | NumberFormatException e) {
                     log.error("Can't get order by id = " + id, e);
                 }
@@ -64,20 +68,16 @@ public class OrderController {
     {
 
         if (delete != null) {
-            try {
-                OrderDao.deleteOrder(editedOrder.getId());
-            } catch (SQLException e) {
-                log.error("Can't delete order with id=" + delete, e);
-            }
+            orderRepository.delete(editedOrder);
         } else {
             try {
-                Order oldOrder = OrderDao.getOrder(editedOrder.getId());
+                Order oldOrder = orderRepository.findById(editedOrder.getId()).
+                    orElseThrow(()->new SQLException());
                 if (oldOrder == null) {
-                    OrderDao.insertOrder(editedOrder);
+                    orderRepository.save(editedOrder);
                     log.debug("Newly inserted order has id = " + editedOrder.getId());
                 } else {
                     oldOrder.merge(editedOrder);
-                    OrderDao.updateOrder(oldOrder);
                     log.debug("Order with id = " + editedOrder.getId() + " successfully updated in DB");
                 }
             } catch (SQLException e) {
@@ -85,11 +85,7 @@ public class OrderController {
             }
         }
 
-        try {
-            model.addAttribute("orders", OrderDao.getOrders());
-        } catch (SQLException e) {
-            log.error("Can't get orders list", e);
-        }
+        model.addAttribute("orders", orderRepository.findAll());
         return "ordersView";
     }
 }
