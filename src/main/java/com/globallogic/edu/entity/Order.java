@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Order implements Serializable {
 
-    private Integer id;
+    private @Id Integer id;
     private Integer userId;
     private Timestamp createdAt;
     private Timestamp startAt;

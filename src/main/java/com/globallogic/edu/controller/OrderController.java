@@ -68,18 +68,20 @@ public class OrderController {
     {
 
         if (delete != null) {
-            orderRepository.delete(editedOrder);
+            orderRepository.deleteById(editedOrder.getId());
         } else {
             try {
                 Order oldOrder = orderRepository.findById(editedOrder.getId()).
-                    orElseThrow(()->new SQLException());
+                    orElseThrow(SQLException::new);
                 if (oldOrder == null) {
-                    orderRepository.save(editedOrder);
+                    orderRepository.insertOrder(editedOrder);
                     log.debug("Newly inserted order has id = " + editedOrder.getId());
                 } else {
                     oldOrder.merge(editedOrder);
+                    orderRepository.saveAndFlush(oldOrder);
                     log.debug("Order with id = " + editedOrder.getId() + " successfully updated in DB");
                 }
+                orderRepository.flush();
             } catch (SQLException e) {
                 log.error("Can't save order", e);
             }
