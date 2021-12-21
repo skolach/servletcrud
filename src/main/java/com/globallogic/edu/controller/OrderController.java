@@ -47,12 +47,12 @@ public class OrderController {
                 Order order = null;
                 try {
                     order = orderRepository.findById(Integer.parseInt(id))
-                            .orElseThrow(() -> new SQLException("Order can't be find"));
+                            .orElseThrow(SQLException::new);
+                    model.addAttribute("order", order);
+                    forwardStr = "orderView";
                 } catch (SQLException | NumberFormatException e) {
                     log.error("Can't get order by id = " + id, e);
                 }
-                model.addAttribute("order", order);
-                forwardStr = "orderView";
             }
         }
         return forwardStr;
@@ -67,15 +67,7 @@ public class OrderController {
         if (delete != null) {
             orderRepository.deleteById(editedOrder.getId());
         } else {
-            if (editedOrder.getId() == null) {
-                orderRepository.save(editedOrder);
-                log.debug("Newly inserted order has id = " + editedOrder.getId());
-            } else {
-                Order oldOrder = orderRepository.findById(editedOrder.getId()).orElse(null);
-                oldOrder.merge(editedOrder);
-                log.debug("Order with id = " + oldOrder.getId() + " successfully updated in DB");
-            }
-            orderRepository.flush();
+            orderRepository.save(editedOrder);
         }
         model.addAttribute("orders", orderRepository.findAll());
         return "ordersView";
