@@ -24,23 +24,21 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
-    OrderController(OrderRepository repo){
+    OrderController(OrderRepository repo) {
         this.orderRepository = repo;
     }
 
-    @GetMapping(path = {"/", "/order"})
+    @GetMapping(path = { "/", "/order" })
     public String doGet(
             Model model,
             @RequestParam(name = "id", required = false) String id,
-            @RequestParam(name = "new", required = false) String newCmd)
-    {
+            @RequestParam(name = "new", required = false) String newCmd) {
 
         String forwardStr = null;
         if (newCmd != null) {
             model.addAttribute("order", new Order());
             forwardStr = "orderView";
-        } 
-        else {
+        } else {
             if (id == null) {
                 List<Order> orders = orderRepository.findAll();
                 model.addAttribute("orders", orders);
@@ -48,8 +46,8 @@ public class OrderController {
             } else {
                 Order order = null;
                 try {
-                    order = orderRepository.findById(Integer.parseInt(id)).
-                        orElseThrow(() -> new SQLException("Order can't be find"));
+                    order = orderRepository.findById(Integer.parseInt(id))
+                            .orElseThrow(() -> new SQLException("Order can't be find"));
                 } catch (SQLException | NumberFormatException e) {
                     log.error("Can't get order by id = " + id, e);
                 }
@@ -60,33 +58,25 @@ public class OrderController {
         return forwardStr;
     }
 
-    @PostMapping(path = {"/order"})
+    @PostMapping(path = { "/order" })
     public String doPost(
             Model model,
             @RequestParam(name = "delete", required = false) String delete,
-            @ModelAttribute("order") Order editedOrder)
-    {
+            @ModelAttribute("order") Order editedOrder) {
 
         if (delete != null) {
             orderRepository.deleteById(editedOrder.getId());
         } else {
-            try {
-                Order oldOrder = orderRepository.findById(editedOrder.getId()).
-                    orElseThrow(SQLException::new);
-                if (oldOrder == null) {
-                    orderRepository.insertOrder(editedOrder);
-                    log.debug("Newly inserted order has id = " + editedOrder.getId());
-                } else {
-                    oldOrder.merge(editedOrder);
-                    orderRepository.saveAndFlush(oldOrder);
-                    log.debug("Order with id = " + editedOrder.getId() + " successfully updated in DB");
-                }
-                orderRepository.flush();
-            } catch (SQLException e) {
-                log.error("Can't save order", e);
+            if (editedOrder.getId() == null) {
+                orderRepository.save(editedOrder);
+                log.debug("Newly inserted order has id = " + editedOrder.getId());
+            } else {
+                Order oldOrder = orderRepository.findById(editedOrder.getId()).orElse(null);
+                oldOrder.merge(editedOrder);
+                log.debug("Order with id = " + oldOrder.getId() + " successfully updated in DB");
             }
+            orderRepository.flush();
         }
-
         model.addAttribute("orders", orderRepository.findAll());
         return "ordersView";
     }
