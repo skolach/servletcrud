@@ -48,6 +48,9 @@ public class OrderDao {
         "DELETE FROM `order` o WHERE o.`id` = ? ";
 
     public static Order getOrder(Integer id) throws SQLException {
+        if (id == null) {
+            return null;
+        }
         Order order = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;

@@ -10,44 +10,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Orders</title>
-    <style>
-        /* Remove the navbar's default margin-bottom and rounded borders */
-        .navbar {
-            margin-bottom: 0;
-            border-radius: 0;
-        }
-
-        /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-        .row.content {
-            height: 450px
-        }
-
-        /* Set gray background color and 100% height */
-        .sidenav {
-            padding-top: 20px;
-            background-color: #f1f1f1;
-            height: 100%;
-        }
-
-        /* Set black background color, white text and some padding */
-        footer {
-            background-color: #555;
-            color: white;
-            padding: 15px;
-        }
-
-        /* On small screens, set height to 'auto' for sidenav and grid */
-        @media screen and (max-width: 767px) {
-            .sidenav {
-                height: auto;
-                padding: 15px;
-            }
-
-            .row.content {
-                height: auto;
-            }
-        }
-    </style>
 </head>
 <body">
 
@@ -98,8 +60,8 @@
                                     <input type="number" name="cash" value="${order.cash}" id="cash" class="form-control">
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="form-control">Submit</button>
-                                    <button type="submit" name="delete" value="${order.id}" class="form-control">Delete</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" name="delete" value="${order.id}" class="btn btn-danger">Delete</button>
                                 </div>
                             </form>
                         </div>
