@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `route`;
-DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS `order_`;
 
-CREATE TABLE IF NOT EXISTS `order` (
+CREATE TABLE IF NOT EXISTS `order_` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `user_id` INT,
     `created_at` DATETIME DEFAULT NOW(),
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `order` (
     -- `cach` > 0 determine trip completed
     `cash` DECIMAL(10, 2),
     --
-    CONSTRAINT `pk_order` PRIMARY KEY (`id`)
+    CONSTRAINT `pk_order_` PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `route` (

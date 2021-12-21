@@ -1,8 +1,8 @@
-delete from `order`;
+delete from `order_`;
 
 delete from `route`;
 
-INSERT into `order`(
+INSERT into `order_`(
         `user_id`,
         `created_at`,
         `start_at`,
@@ -14,7 +14,7 @@ INSERT into `order`(
     )
 VALUES (1, now(), now(), now(), 100, 10, 20, 72);
 
-INSERT into `order`(
+INSERT into `order_`(
         `user_id`,
         `created_at`,
         `start_at`,
