@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -103,17 +102,6 @@ public class Order implements Serializable {
 
     public void setCash(BigDecimal cash) {
         this.cash = cash;
-    }
-
-    public void merge(Order another) {
-        userId = another.getUserId() == null ? userId : another.getUserId();
-        createdAt = another.getCreatedAt() == null ? createdAt : another.getCreatedAt();
-        startAt = another.getStartAt() == null ? startAt : another.getStartAt();
-        endAt = another.getEndAt() == null ? endAt : another.getEndAt();
-        price = another.getPrice() == null ? price : another.getPrice();
-        routeDiscount = another.getRouteDiscount() == null ? routeDiscount : another.getRouteDiscount();
-        userDiscount = another.getUserDiscount() == null ? userDiscount : another.getUserDiscount();
-        cash = another.getCash() == null ? cash : another.getCash();
     }
 
     @Override
