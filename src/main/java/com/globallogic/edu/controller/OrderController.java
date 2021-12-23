@@ -67,20 +67,7 @@ public class OrderController {
         if (delete != null) {
             orderRepository.deleteById(editedOrder.getId());
         } else {
-            // if (editedOrder.getId() != null) {
                 orderRepository.save(editedOrder);
-            // } else {
-            //     orderRepository.insertOrder(
-            //         editedOrder.getUserId(),
-            //         editedOrder.getStartAt(),
-            //         editedOrder.getEndAt(),
-            //         editedOrder.getPrice(),
-            //         editedOrder.getRouteDiscount(),
-            //         editedOrder.getUserDiscount(),
-            //         editedOrder.getCash()
-            //     );
-            //     orderRepository.flush();
-            // }
         }
         model.addAttribute("orders", orderRepository.findAll());
         return "ordersView";
