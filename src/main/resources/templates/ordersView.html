@@ -23,9 +23,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3>Orders</h3>
-                            <button onclick="location.href='order?new=true'" type="button" class="btn btn-warning">
-                                Add new ...
-                            </button>
+                            <a class="btn btn-danger" th:href="@{/order/newOrder}">Add new order ...</a>
                         </div>
                         <div class="panel-body">
                             <form>
@@ -72,7 +70,11 @@
                                         <td th:text="${o.routeDiscount}"></td>
                                         <td th:text="${o.userDiscount}"></td>
                                         <td th:text="${o.cash}"></td>
-                                        <td> <a href="order" th:href="@{'order?id='+${o.id}}">Edit...</a> </td>
+                                        <td> 
+                                            <a th:href="@{'order/'+${o.id}}">Edit...</a> 
+                                            <br>
+                                            <a th:href="@{'order/delete/'+${o.id}}">Delete</a> 
+                                        </td>
                                     </tr>
                                 </table>
                             </form>
