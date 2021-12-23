@@ -14,9 +14,16 @@ import javax.persistence.Table;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString(includeFieldNames=true)
+
 @Entity
 @DynamicUpdate @DynamicInsert
 @Table(name = "order_")
+
 public class Order implements Serializable {
 
     @Id
@@ -31,84 +38,5 @@ public class Order implements Serializable {
     private Integer routeDiscount;
     private Integer userDiscount;
     private BigDecimal cash;
-    
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Timestamp getStartAt() {
-        return startAt;
-    }
-
-    public void setStartAt(Timestamp startAt) {
-        this.startAt = startAt;
-    }
-
-    public Timestamp getEndAt() {
-        return endAt;
-    }
-
-    public void setEndAt(Timestamp endAt) {
-        this.endAt = endAt;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public Integer getRouteDiscount() {
-        return routeDiscount;
-    }
-
-    public void setRouteDiscount(Integer routeDiscount) {
-        this.routeDiscount = routeDiscount;
-    }
-
-    public Integer getUserDiscount() {
-        return userDiscount;
-    }
-
-    public void setUserDiscount(Integer userDiscount) {
-        this.userDiscount = userDiscount;
-    }
-
-    public BigDecimal getCash() {
-        return cash;
-    }
-
-    public void setCash(BigDecimal cash) {
-        this.cash = cash;
-    }
-
-    @Override
-    public String toString() {
-        return "Order [cash=" + cash + ", createdAt=" + createdAt + ", endAt=" + endAt + ", id=" + id + ", price="
-                + price + ", routeDiscount=" + routeDiscount + ", startAt=" + startAt + ", userDiscount=" + userDiscount
-                + ", userId=" + userId + "]";
-    }
 
 }
