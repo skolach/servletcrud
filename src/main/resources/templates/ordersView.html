@@ -23,7 +23,7 @@
                     <div class="panel panel-primary">
                         <div class="panel-heading">
                             <h3>Orders</h3>
-                            <a class="btn btn-danger" th:href="@{/order/newOrder}">Add new order ...</a>
+                            <a class="btn btn-success" th:href="@{/order/newOrder}">Add new order ...</a>
                         </div>
                         <div class="panel-body">
                             <form>
@@ -71,9 +71,8 @@
                                         <td th:text="${o.userDiscount}"></td>
                                         <td th:text="${o.cash}"></td>
                                         <td> 
-                                            <a th:href="@{'order/'+${o.id}}">Edit...</a> 
-                                            <br>
-                                            <a th:href="@{'order/delete/'+${o.id}}">Delete</a> 
+                                            <a class="btn btn-success" th:href="@{'order/'+${o.id}}">Edit...</a> 
+                                            <a class="btn btn-danger" th:href="@{'order/delete/'+${o.id}}">Delete</a> 
                                         </td>
                                     </tr>
                                 </table>
