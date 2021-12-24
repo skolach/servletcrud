@@ -2,12 +2,16 @@ package com.globallogic.edu.entity;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicInsert;
@@ -38,5 +42,9 @@ public class Order implements IEntity {
     private Integer routeDiscount;
     private Integer userDiscount;
     private BigDecimal cash;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    private Set<Route> routes;
 
 }

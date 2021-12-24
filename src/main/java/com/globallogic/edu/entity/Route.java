@@ -21,13 +21,15 @@ import lombok.ToString;
 
 @DynamicUpdate @DynamicInsert
 
-public class Route {
+public class Route implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", insertable = false, updatable = false)
     private int id;
+    @Column(name = "order_id", insertable = false, updatable = false)
     private int orderId;
     private int pointOrder;
     private String pointName;
+
 }
