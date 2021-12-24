@@ -1,6 +1,5 @@
 package com.globallogic.edu.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -21,10 +20,11 @@ import lombok.ToString;
 @ToString(includeFieldNames=true)
 
 @Entity
-@DynamicUpdate @DynamicInsert
 @Table(name = "order_")
 
-public class Order implements Serializable {
+@DynamicUpdate @DynamicInsert
+
+public class Order implements IEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
