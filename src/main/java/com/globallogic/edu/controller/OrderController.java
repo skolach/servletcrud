@@ -2,6 +2,7 @@ package com.globallogic.edu.controller;
 
 import com.globallogic.edu.entity.Order;
 import com.globallogic.edu.service.OrderService;
+import com.globallogic.edu.service.RouteService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,9 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private RouteService routeService;
+
     @GetMapping
     public String getOrders(Model model){
         model.addAttribute("orders", orderService.getAll());
@@ -33,6 +37,7 @@ public class OrderController {
     @GetMapping("/{id}")
     public String editOrder(@PathVariable("id") Integer id, Model model){
         model.addAttribute("order", orderService.getById(id));
+        model.addAttribute("routes", routeService.findByOrderId(id));
         return "orderView";
     }
 
