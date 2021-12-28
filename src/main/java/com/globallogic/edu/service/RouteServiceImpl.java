@@ -29,4 +29,9 @@ public class RouteServiceImpl implements RouteService{
         return routeRepository.getById(id);
     }
 
+    @Override
+    public void save(Route route) {
+        routeRepository.save(route);
+    }
+
 }

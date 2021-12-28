@@ -12,4 +12,6 @@ public interface RouteService {
 
     public Route getById(Integer id);
 
+    public void save(Route route);
+
 }
