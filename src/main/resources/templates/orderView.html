@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -55,9 +56,8 @@
                                 <input type="number" th:field="*{cash}" class="form-control">
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="btn btn-success">Submit</button>
+                                <button type="submit" class="btn btn-success" name="action" value="save">Submit</button>
                             </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -65,6 +65,9 @@
                 <div id="routes" class="panel panel-info">
                     <div class="panel-heading">
                         <h3>Routes</h3>
+                        <div th:if="${order.id != null}">
+                            <button type="submit" class="btn btn-success" name="action" value="newPoint">Add new point ...</button>
+                        </div>
                     </div>
                     <div class="panel-body">
                         <table class="table">
@@ -86,7 +89,7 @@
                                 <td th:text="${r.pointOrder}"></td>
                                 <td th:text="${r.pointName}"></td>
                                 <td>
-                                    <a class="btn btn-success" th:href="@{'route/'+${r.id}}">Edit...</a>
+                                    <a class="btn btn-success" th:href="@{'/order/route/'+${r.id}}">Edit...</a>
                                     <a class="btn btn-danger" th:href="@{'route/delete/'+${r.id}}">Delete</a>
                                 </td>
                             </tr>
@@ -94,6 +97,7 @@
                     </div>
                 </div>
             </div>
+            </form>
             <div class="col-sm-2 sidenav">
             </div>
         </div>
