@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Orders</title>
+</head>
+
+<body>
+
+    <div class="container-fluid text-center">
+        <div class="row content">
+            <div class="col-sm-2 sidenav">
+
+            </div>
+            <div class="col-sm-8 text-left">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Route</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="#" th:action="@{/order/route}" th:object="${route}" method="post">
+                            <input type="number" name="id" th:field="*{id}" hidden>
+                            <input type="number" name="orderId" th:field="*{order.id}" hidden>
+                            <div class="form-group">
+                                <label for="pointOrder" class="text-info">pointOrder:</label><br>
+                                <input type="number" th:field="*{pointOrder}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="pointName" class="text-info">pointName:</label><br>
+                                <input type="text" th:field="*{pointName}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 sidenav">
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

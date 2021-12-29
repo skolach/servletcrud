@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,65 +10,98 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Orders</title>
 </head>
+
 <body>
 
     <div class="container-fluid text-center">
         <div class="row content">
             <div class="col-sm-2 sidenav">
-            </div>
-
-            <div class="col-sm-8 text-left">
-                <div id="history" class="panel-group">
-                    <div class="panel panel-primary">
-                        <div class="panel-heading">
-                            <h3>Order</h3>
-                        </div>
-                        <div class="panel-body">
-                            <form action="#" th:action="@{/order}" th:object="${order}" method="post">
-                                <input type="number" name="id" th:field="*{id}" hidden>
-                                <div class="form-group">
-                                    <label for="userId" class="text-info">userId:</label><br>
-                                    <input type="text" th:field="*{userId}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="createdAt" class="text-info">createdAt:</label><br>
-                                    <input type="datetime" th:field="*{createdAt}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="startAt" class="text-info">startAt:</label><br>
-                                    <input type="datetime" th:field="*{startAt}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="endAt" class="text-info">endAt:</label><br>
-                                    <input type="datetime"th:field="*{endAt}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="price" class="text-info">price:</label><br>
-                                    <input type="number" th:field="*{price}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="routeDiscount" class="text-info">routeDiscount:</label><br>
-                                    <input type="number" th:field="*{routeDiscount}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="userDiscount" class="text-info">userDiscount:</label><br>
-                                    <input type="number" th:field="*{userDiscount}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <label for="cash" class="text-info">cash:</label><br>
-                                    <input type="number" th:field="*{cash}" class="form-control">
-                                </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success">Submit</button>
-                                </div>
-                            </form>
-                        </div>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3>Order</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form action="#" th:action="@{/order}" th:object="${order}" method="post">
+                            <input type="number" name="id" th:field="*{id}" hidden>
+                            <div class="form-group">
+                                <label for="userId" class="text-info">userId:</label><br>
+                                <input type="text" th:field="*{userId}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="createdAt" class="text-info">createdAt:</label><br>
+                                <input type="datetime" th:field="*{createdAt}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="startAt" class="text-info">startAt:</label><br>
+                                <input type="datetime" th:field="*{startAt}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="endAt" class="text-info">endAt:</label><br>
+                                <input type="datetime" th:field="*{endAt}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="price" class="text-info">price:</label><br>
+                                <input type="number" th:field="*{price}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="routeDiscount" class="text-info">routeDiscount:</label><br>
+                                <input type="number" th:field="*{routeDiscount}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="userDiscount" class="text-info">userDiscount:</label><br>
+                                <input type="number" th:field="*{userDiscount}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cash" class="text-info">cash:</label><br>
+                                <input type="number" th:field="*{cash}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-success" name="action" value="save">Submit</button>
+                            </div>
                     </div>
                 </div>
             </div>
+            <div class="col-sm-8 text-left">
+                <div id="routes" class="panel panel-info">
+                    <div class="panel-heading">
+                        <h3>Routes</h3>
+                        <div th:if="${order.id != null}">
+                            <button type="submit" class="btn btn-success" name="action" value="newPoint">Add new point ...</button>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <th>
+                                    id
+                                </th>
+                                <th>
+                                    pointOrder
+                                </th>
+                                <th>
+                                    pointName
+                                </th>
+                                <th>
+                                </th>
+                            </tr>
+                            <tr th:each="r : ${routes}">
+                                <td th:text="${r.id}"></td>
+                                <td th:text="${r.pointOrder}"></td>
+                                <td th:text="${r.pointName}"></td>
+                                <td>
+                                    <a class="btn btn-success" th:href="@{'/order/route/'+${r.id}}">Edit...</a>
+                                    <a class="btn btn-danger" th:href="@{'route/delete/'+${r.id}}">Delete</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </form>
             <div class="col-sm-2 sidenav">
             </div>
         </div>
     </div>
 </body>
+
 </html>
