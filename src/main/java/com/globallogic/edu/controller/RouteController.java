@@ -1,8 +1,10 @@
 package com.globallogic.edu.controller;
 
-import com.globallogic.edu.entity.Route;
+import com.globallogic.edu.entity.RouteDto;
+import com.globallogic.edu.entity.RouteDtoMapper;
 import com.globallogic.edu.service.RouteService;
 
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,8 @@ public class RouteController {
     @Autowired
     private RouteService routeService;
 
+    private RouteDtoMapper routeDtoMapper = Mappers.getMapper(RouteDtoMapper.class);
+
     @GetMapping("/{id}")
     public String editRoute(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("route", routeService.getById(id));
@@ -25,9 +29,9 @@ public class RouteController {
     }
 
     @PostMapping
-    public String saveRoute(Route route){
-        routeService.save(route);
-        return "redirect:/order/" + route.getOrder().getId();
+    public String saveRoute(RouteDto routeDto){
+        routeService.save(routeDtoMapper.routeDtoToRoute(routeDto));
+        return "redirect:/order/" + routeDto.getOrder().getId();
     }
 
     @GetMapping("delete/{id}")
