@@ -15,7 +15,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "role")
-public class Role {
+public class Role implements IEntity{
 
     @Id @Column(name = "id") @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

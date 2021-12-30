@@ -8,7 +8,7 @@ import lombok.ToString;
 public class UserDto {
 
     private Long id;
-    private String login;
+    private String userName;
     private String password;
     private boolean enabled;
 

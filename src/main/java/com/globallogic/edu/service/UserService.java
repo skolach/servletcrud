@@ -4,6 +4,6 @@ import com.globallogic.edu.entity.User;
 
 public interface UserService {
 
-    public User findUserByLogin(String login);
+    public User findUserByUserName(String login);
 
 }

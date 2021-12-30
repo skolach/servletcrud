@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `route` (
 
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `login` varchar(45) NOT NULL UNIQUE,
+  `user_name` varchar(45) NOT NULL UNIQUE,
   `password` varchar(64) NOT NULL,
   `enabled` tinyint DEFAULT NULL,
   PRIMARY KEY (`id`)
