@@ -43,11 +43,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/order").hasAnyAuthority("USER", "ADMIN")
-                .antMatchers(HttpMethod.GET, "/order/**").hasAnyAuthority("USER", "ADMIN")                
+                .antMatchers(HttpMethod.GET, "/order/route/delete/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/order/route/**").hasAnyAuthority("ADMIN")
                 .antMatchers(HttpMethod.GET, "/order/delete/**").hasAuthority("ADMIN")
-                //.antMatchers("/order/newOrder").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/order/newOrder").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/order/**").hasAnyAuthority("USER", "ADMIN")                
                 .antMatchers(HttpMethod.POST, "/order").hasAnyAuthority("ADMIN")
+                .antMatchers(HttpMethod.GET, "/order").hasAnyAuthority("USER", "ADMIN")
+                .antMatchers(HttpMethod.GET, "/order/route/**").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().permitAll()
@@ -56,5 +59,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling().accessDeniedPage("/error/403");
     }
-
 }
