@@ -1,6 +1,9 @@
 delete from `order_`;
-
 delete from `route`;
+
+delete from `user_role`;
+delete from `role`;
+delete from `user`;
 
 INSERT into `order_`(
         `user_id`,
@@ -20,3 +23,14 @@ insert into `route`(`order_id`, `point_order`, `point_name`)
 values
 	(1,1,'1_1'), (1,2,'1_2'), (1,3,'1_3'),
     (2,1,'2_1'), (2,2,'2_2'), (2,3,'2_3');
+    
+-- SECURITY --
+
+INSERT INTO `role` (`name`) VALUES ('USER');
+INSERT INTO `role` (`name`) VALUES ('ADMIN');
+
+INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('alex', '$2y$10$HZTh/mKSH2asgm8aisIDx.keBI54qrkgijVAmBFNHSYzfejk5lk3u', '1');
+INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('admin', '$2y$10$HZTh/mKSH2asgm8aisIDx.keBI54qrkgijVAmBFNHSYzfejk5lk3u', '1');
+
+INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (1, 1); -- user alex has role USER
+INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (2, 2); -- user admin has role ADMIN
