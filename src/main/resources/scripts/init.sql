@@ -29,8 +29,8 @@ values
 INSERT INTO `role` (`name`) VALUES ('USER');
 INSERT INTO `role` (`name`) VALUES ('ADMIN');
 
-INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('alex', '$2a$10$b.FJuTuRnMD4HAfivaXwruCnfYEIGJQ2e53LB6jcVu/Zvm2sBjKqm', '1');
-INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('admin', '$2a$10$b.FJuTuRnMD4HAfivaXwruCnfYEIGJQ2e53LB6jcVu/Zvm2sBjKqm', '1');
+INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('alex', '$2y$10$HZTh/mKSH2asgm8aisIDx.keBI54qrkgijVAmBFNHSYzfejk5lk3u', '1');
+INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('admin', '$2y$10$HZTh/mKSH2asgm8aisIDx.keBI54qrkgijVAmBFNHSYzfejk5lk3u', '1');
 
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (1, 1); -- user alex has role USER
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES (2, 2); -- user admin has role ADMIN
