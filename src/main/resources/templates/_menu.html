@@ -1,25 +1,25 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<script type="text/javascript">
+    $.get("/user", function (data) {
+        $("#user").html(data.name);
+        // $(".unauthenticated").hide()
+        $(".authenticated").show()
+    });
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <title></title>
-</head>
+    var logout = function () {
+        $.post("/logout", function () {
+            $("#user").html('');
+            // $(".unauthenticated").show();
+            $(".authenticated").hide();
+        })
+        return true;
+    }
+</script>
 
-<body>
-    <nav class="navbar">
-        <div class="container-fluid">
-            <span sec:authentication="name">Username</span>
-            <span sec:authentication="principal.authorities">Roles</span>
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Logout" />
-            </form>
+<nav class="navbar">
+    <div class="container-fluid authenticated" style="display:none">
+        Loged in as: <span id="user">Username</span>
+        <div>
+            <button onclick="logout()" class="btn btn-primary">Logout</button>
         </div>
-    </nav>
-</body>
-</html>
+    </div>
+</nav>
