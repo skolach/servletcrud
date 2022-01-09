@@ -1,25 +1,13 @@
-<script type="text/javascript">
-    $.get("/user", function (data) {
-        $("#user").html(data.name);
-        // $(".unauthenticated").hide()
-        $(".authenticated").show()
-    });
-
-    var logout = function () {
-        $.post("/logout", function () {
-            $("#user").html('');
-            // $(".unauthenticated").show();
-            $(".authenticated").hide();
-        })
-        return true;
-    }
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.js"
+    integrity="sha512-JjYSgzqo9K0IeYGEslMRYE8aO9tq7Ky3EQNmEVkAe6Cp14AwlJMLMnb0fpgEkr3YxJ8ghQiriOvZwIdRZieGIQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <nav class="navbar">
-    <div class="container-fluid authenticated" style="display:none">
-        Loged in as: <span id="user">Username</span>
-        <div>
-            <button onclick="logout()" class="btn btn-primary">Logout</button>
-        </div>
+    <div class="container-fluid" sec:authorize="isAuthenticated()">
+        <div> Authenticated as <span sec:authentication="name"></span></div>
+        <form action="/logout" method="POST">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="submit" value="Logout">
+        </form>
     </div>
 </nav>
