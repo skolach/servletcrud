@@ -26,8 +26,8 @@ values
     
 -- SECURITY --
 
-INSERT INTO `role` (`name`) VALUES ('USER');
-INSERT INTO `role` (`name`) VALUES ('ADMIN');
+INSERT INTO `role` (`name`) VALUES ('ROLE_USER');
+INSERT INTO `role` (`name`) VALUES ('ROLE_ADMIN');
 
 INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('alex', '$2y$10$HZTh/mKSH2asgm8aisIDx.keBI54qrkgijVAmBFNHSYzfejk5lk3u', '1');
 INSERT INTO `user` (`user_name`, `password`, `enabled`) VALUES ('admin', '$2y$10$HZTh/mKSH2asgm8aisIDx.keBI54qrkgijVAmBFNHSYzfejk5lk3u', '1');

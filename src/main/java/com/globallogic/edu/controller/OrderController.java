@@ -1,5 +1,7 @@
 package com.globallogic.edu.controller;
 
+import static com.globallogic.edu.configuration.Constant.ROLE_ADMIN;
+import static com.globallogic.edu.configuration.Constant.ROLE_USER;
 import com.globallogic.edu.entity.Order;
 import com.globallogic.edu.entity.OrderDto;
 import com.globallogic.edu.entity.OrderDtoMapper;
@@ -11,6 +13,7 @@ import com.globallogic.edu.service.RouteService;
 
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,12 +40,14 @@ public class OrderController {
         return "ordersView";
     }
 
+    @Secured(ROLE_ADMIN)
     @GetMapping("newOrder")
     public String newOrder(Model model){
         model.addAttribute("order", new Order());
         return "orderView";
     }
 
+    @Secured({ROLE_USER, ROLE_ADMIN})
     @GetMapping("/{id}")
     public String editOrder(@PathVariable("id") Integer id, Model model){
         model.addAttribute("order", orderDtoMapper.orderToOrderDto(orderService.getById(id)));
@@ -50,12 +55,14 @@ public class OrderController {
         return "orderView";
     }
 
+    @Secured(ROLE_ADMIN)
     @PostMapping(params = "action=save")
     public String updateOrder(OrderDto orderDto) {
         orderService.save(orderDtoMapper.orderDtoToOrder(orderDto));
         return "redirect:/order";
     }
 
+    @Secured(ROLE_ADMIN)
     @PostMapping(params = "action=newPoint")
     public String newPoint(OrderDto orderDto, Model model) {
         RouteDto newRouteDto = routeDtoMapper.routeToRouteDto(new Route());
@@ -64,6 +71,7 @@ public class OrderController {
         return "RouteView";
     }
 
+    @Secured(ROLE_ADMIN)
     @GetMapping("/delete/{id}")
     public String deleteOrder(@PathVariable("id") Integer id){
         orderService.delete(id);
