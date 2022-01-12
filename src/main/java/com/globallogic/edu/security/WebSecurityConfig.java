@@ -52,8 +52,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         .formLogin().loginPage("/login").permitAll()
         .and()
-        .logout().permitAll()
+        .logout().deleteCookies("remove").invalidateHttpSession(false)
+        .logoutSuccessUrl("/").permitAll()
         .and()
-        .exceptionHandling().accessDeniedPage("/error/403");
+        .exceptionHandling().accessDeniedPage("/error/403")
+        .and()
+        .oauth2Login();
     }
 }
