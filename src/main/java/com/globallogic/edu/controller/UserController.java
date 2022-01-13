@@ -3,6 +3,7 @@ package com.globallogic.edu.controller;
 import com.globallogic.edu.entity.User;
 import com.globallogic.edu.entity.UserDto;
 import com.globallogic.edu.entity.UserDtoMapper;
+import com.globallogic.edu.service.RoleService;
 import com.globallogic.edu.service.UserService;
 
 import org.mapstruct.factory.Mappers;
@@ -21,12 +22,16 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
+
     private UserDtoMapper userDtoMapper = Mappers.getMapper(UserDtoMapper.class);
 
     @Secured("ROLE_ADMIN")
     @GetMapping("newUser")
     public String newUser(Model model) {
         model.addAttribute("user", new User());
+        model.addAttribute("roles", roleService.getAllRoles());
         return "userView";
     }
 

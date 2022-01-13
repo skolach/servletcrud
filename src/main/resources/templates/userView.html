@@ -55,6 +55,49 @@
                                 <label for="enabled" class="text-info">Enabled:</label><br>
                                 <input type="checkbox" th:field="*{enabled}" class="form-control">
                             </div>
+
+                            <div class="form-group panel-group">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <h4>Available groups:</h4>
+                                    </div>
+                                    <div class="panel-body">
+
+                                        <table class="table">
+                                            <tr>
+                                                <th>
+                                                    id
+                                                </th>
+                                                <th>
+                                                    Role name
+                                                </th>
+                                                <th>
+                                                    
+                                                </th>
+                                            </tr>
+
+                                            <tr th:each="r : ${roles}">
+                                                <td th:text="${r.id}"></td>
+                                                <td th:text="${r.name}"></td>
+                                                <td>
+                                                    <input type="checkbox" name="selected" th:id="${r.id}">
+                                                </td>
+                                            </tr>
+                                        </table>
+
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+
+
+
+
                             <div class="form-group">
                                 <button disabled type="submit" name="submit" class="btn btn-primary" value="submit"
                                     id="submit">Submit</button>
@@ -66,4 +109,5 @@
         </div>
     </div>
 </body>
+
 </html>
