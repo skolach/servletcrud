@@ -1,5 +1,7 @@
 package com.globallogic.edu.entity;
 
+import java.util.Set;
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -11,5 +13,6 @@ public class UserDto {
     private String userName;
     private String password;
     private boolean enabled;
+    private Set<Role> roles;
 
 }
