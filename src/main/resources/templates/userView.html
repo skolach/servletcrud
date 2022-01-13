@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Add user</title>
+</head>
+
+<body>
+    <script>
+        var check = function () {
+            if (document.getElementById('password').value ==
+                document.getElementById('confirm_password').value) {
+                document.getElementById('message').style.color = 'green';
+                document.getElementById('message').innerHTML = 'matching';
+                document.getElementById('submit').disabled = false;
+            } else {
+                document.getElementById('message').style.color = 'red';
+                document.getElementById('message').innerHTML = 'not matching';
+                document.getElementById('submit').disabled = true;
+            }
+        }
+    </script>
+
+    <div th:replace="_menu"></div>
+
+    <div id="signUp">
+        <div class="container-fluid text-center">
+            <div id="login-row" class="row justify-content-center align-items-center">
+                <div id="signUp-column" class="col-md-6">
+                    <div id="signUp-box" class="col-md-12">
+                        <form id="signUp-form" class="form" th:object="${user}" th:action="@{/user/}" method="post">
+                            <h3 class="text-center text-info">New user</h3>
+                            <div class="form-group">
+                                <label for="userName" class="text-info">Username:</label><br>
+                                <input type="text" th:field="*{userName}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="password" class="text-info">Password:</label><br>
+                                <input type="password" th:field="*{password}" id="password" class="form-control"
+                                    onkeyup="check();">
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password" class="text-info">Confirm password:</label><br>
+                                <input type="password" name="confirm_password" id="confirm_password"
+                                    class="form-control" onkeyup="check();">
+                                <span id="message"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="enabled" class="text-info">Enabled:</label><br>
+                                <input type="checkbox" th:field="*{enabled}" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <button disabled type="submit" name="submit" class="btn btn-primary" value="submit"
+                                    id="submit">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
