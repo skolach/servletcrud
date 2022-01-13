@@ -1,3 +1,8 @@
+According to
+https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/#goals-repackage
+project must be build like "mvn clean package spring-boot:repackage"
+for runnig from command line as "java -jar ..."
+
 Security(authorization, authentication)
 Route editing(HTML form, controller action ....)
 DTO
